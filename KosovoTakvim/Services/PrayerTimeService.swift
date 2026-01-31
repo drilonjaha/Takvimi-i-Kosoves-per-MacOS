@@ -5,6 +5,7 @@ enum PrayerTimeError: Error, LocalizedError {
     case invalidResponse
     case parsingError
     case noCache
+    case noDataForDate
 
     var errorDescription: String? {
         switch self {
@@ -16,16 +17,14 @@ enum PrayerTimeError: Error, LocalizedError {
             return "Failed to parse prayer times"
         case .noCache:
             return "No cached data available"
+        case .noDataForDate:
+            return "No prayer times available for this date"
         }
     }
 }
 
 actor PrayerTimeService {
     static let shared = PrayerTimeService()
-
-    private let baseURL = "https://api.aladhan.com/v1/timings"
-    // BIM Kosovo uses Fajr angle 18°, Isha angle 17°
-    private let methodSettings = "18,null,17"
 
     private var cache: [String: DailyPrayerTimes] = [:]
     private let cacheKey = "cachedPrayerTimes"
@@ -35,14 +34,27 @@ actor PrayerTimeService {
     }
 
     func fetchPrayerTimes(for city: City, date: Date = Date()) async throws -> DailyPrayerTimes {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+
+        // Use official BIM Kosovo data for 2026 (always prioritize over cache)
+        if year == 2026 {
+            if let times = PrayerTimesData2026.getPrayerTimes(for: date, city: city) {
+                let cacheId = cacheKey(for: city, date: date)
+                cache[cacheId] = times
+                saveCacheToDisk()
+                return times
+            }
+        }
+
         let cacheId = cacheKey(for: city, date: date)
 
-        // Check memory cache first
+        // Check memory cache for non-2026 dates
         if let cached = cache[cacheId] {
             return cached
         }
 
-        // Try network request
+        // Fallback to API for other years
         do {
             let times = try await fetchFromAPI(city: city, date: date)
             cache[cacheId] = times
@@ -58,6 +70,9 @@ actor PrayerTimeService {
     }
 
     private func fetchFromAPI(city: City, date: Date) async throws -> DailyPrayerTimes {
+        let baseURL = "https://api.aladhan.com/v1/timings"
+        let methodSettings = "18,null,17" // BIM Kosovo angles
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         let dateString = dateFormatter.string(from: date)

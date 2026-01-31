@@ -188,11 +188,17 @@ class MenuBarViewModel: ObservableObject {
 
     var menuBarText: String {
         guard let next = nextPrayer else {
-            return "Takvimi"
+            return "..."
         }
 
-        let showName = UserDefaults.standard.bool(forKey: "showPrayerName")
-        return TimeFormatter.shared.menuBarText(prayer: next.prayer, time: next.time, showFullName: showName)
+        let countdown = TimeFormatter.shared.formatCountdown(to: next.time)
+        let showName = UserDefaults.standard.object(forKey: "showPrayerName") as? Bool ?? true
+
+        if showName {
+            return "\(next.prayer.rawValue) \(countdown)"
+        } else {
+            return countdown
+        }
     }
 
     deinit {

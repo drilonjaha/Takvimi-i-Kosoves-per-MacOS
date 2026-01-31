@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import Combine
 
 @main
 struct KosovoTakvimApp: App {
@@ -12,11 +13,13 @@ struct KosovoTakvimApp: App {
     }
 }
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     private var popover: NSPopover?
     private var viewModel: MenuBarViewModel?
     private var updateTimer: Timer?
+    private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hide dock icon
@@ -37,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if let button = statusItem?.button {
             button.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "Takvimi")
-            button.title = " Takvimi"
+            button.title = " ..."
             button.imagePosition = .imageLeading
             button.action = #selector(togglePopover)
             button.target = self
@@ -54,13 +57,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if let viewModel = viewModel {
             popover?.contentViewController = NSHostingController(rootView: MenuBarView(viewModel: viewModel))
+
+            // Observe viewModel changes to update menu bar immediately
+            viewModel.objectWillChange
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in
+                    self?.updateMenuBarText()
+                }
+                .store(in: &cancellables)
         }
     }
 
     private func startMenuBarUpdates() {
         updateMenuBarText()
 
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
             self?.updateMenuBarText()
         }
     }
@@ -68,23 +79,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func updateMenuBarText() {
         guard let button = statusItem?.button, let viewModel = viewModel else { return }
 
-        DispatchQueue.main.async {
-            let text = viewModel.menuBarText
-            button.title = " \(text)"
+        let text = viewModel.menuBarText
+        button.title = " \(text)"
 
-            // Update icon based on proximity to next prayer
-            if let next = viewModel.nextPrayer {
-                let interval = next.time.timeIntervalSince(Date())
-                if interval <= 300 { // 5 minutes
-                    button.image = NSImage(systemSymbolName: "bell.fill", accessibilityDescription: "Prayer soon")
-                    button.contentTintColor = .systemOrange
-                } else if interval <= 900 { // 15 minutes
-                    button.image = NSImage(systemSymbolName: "bell", accessibilityDescription: "Prayer approaching")
-                    button.contentTintColor = .systemYellow
-                } else {
-                    button.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "Takvimi")
-                    button.contentTintColor = nil
-                }
+        // Update icon based on proximity to next prayer
+        if let next = viewModel.nextPrayer {
+            let interval = next.time.timeIntervalSince(Date())
+            if interval <= 300 { // 5 minutes
+                button.image = NSImage(systemSymbolName: "bell.fill", accessibilityDescription: "Prayer soon")
+                button.contentTintColor = .systemOrange
+            } else if interval <= 900 { // 15 minutes
+                button.image = NSImage(systemSymbolName: "bell", accessibilityDescription: "Prayer approaching")
+                button.contentTintColor = .systemYellow
+            } else {
+                button.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "Takvimi")
+                button.contentTintColor = nil
             }
         }
     }
