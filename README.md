@@ -1,6 +1,6 @@
 # Takvimi i Kosovës për macOS
 
-Aplikacion për Mac që shfaq kohët e namazit për qytetet e Kosovës duke përdorur të dhënat zyrtare të BIM Kosovë.
+Aplikacion për Mac që shfaq kohët e namazit për qytetet e Kosovës duke përdorur të dhënat zyrtare të BIK (Bashkësia Islame e Kosovës).
 
 ![macOS](https://img.shields.io/badge/macOS-13.0+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -50,7 +50,7 @@ Meqë ky aplikacion nuk është nga App Store, macOS do ta bllokojë herën e pa
 - ⏱️ **Numërim mbrapsht live** deri te namazi i ardhshëm në menu bar
 - 🔔 **Njoftime** para kohës së namazit
 - 🎙️ **Përkujtues me zë** - regjistro mesazhin tënd
-- 📅 **Kohët zyrtare të BIM Kosovë 2026**
+- 📅 **Kohët zyrtare të BIK (Bashkësia Islame e Kosovës) 2026**
 - 🚀 **Hap me ndezjen e kompjuterit**
 
 ---
