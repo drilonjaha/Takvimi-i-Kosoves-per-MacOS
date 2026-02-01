@@ -1,85 +1,85 @@
-# Takvimi - Kosovo Prayer Times
+# Takvimi i Kosovës për macOS
 
-A native macOS menu bar app displaying prayer times for Kosovo cities using official BIM Kosovo data.
+Aplikacion për Mac që shfaq kohët e namazit për qytetet e Kosovës duke përdorur të dhënat zyrtare të BIM Kosovë.
 
 ![macOS](https://img.shields.io/badge/macOS-13.0+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
-## ⬇️ Download
+## ⬇️ Shkarko
 
-**[Download Takvimi.dmg](https://github.com/drilonjaha/KosovoTakvim/releases/latest/download/Takvimi.dmg)**
+**[Shkarko Takvimi.dmg](https://github.com/drilonjaha/Takvimi-i-Kosoves-per-MacOS/releases/latest/download/Takvimi.dmg)**
 
-Or go to [Releases](https://github.com/drilonjaha/KosovoTakvim/releases) page.
-
----
-
-## 🛠️ Installation Instructions
-
-### Step 1: Download
-Click the download link above to get `Takvimi.dmg`
-
-### Step 2: Install
-1. Open the downloaded `Takvimi.dmg` file
-2. Drag `KosovoTakvim.app` to the **Applications** folder
-
-### Step 3: Open the App (Important!)
-
-Since this app is not from the App Store, macOS will block it the first time. Here's how to open it:
-
-#### Option A - Right-Click Method (Recommended)
-1. Open your **Applications** folder
-2. Find **KosovoTakvim**
-3. **Right-click** (or Control+click) on the app
-4. Select **"Open"** from the menu
-5. Click **"Open"** in the popup dialog
-
-#### Option B - System Settings Method
-1. Try to open the app normally (it will be blocked)
-2. Open **System Settings** → **Privacy & Security**
-3. Scroll down until you see "KosovoTakvim was blocked..."
-4. Click **"Open Anyway"**
-5. Enter your password if asked
-
-✅ **After doing this once, the app will open normally forever!**
+Ose shko te faqja [Releases](https://github.com/drilonjaha/Takvimi-i-Kosoves-per-MacOS/releases).
 
 ---
 
-## ✨ Features
+## 🛠️ Si të Instalosh
 
-- 🕌 **Prayer times** for all major Kosovo cities
+### Hapi 1: Shkarko
+Kliko linkun e shkarkimit më lart për të marrë `Takvimi.dmg`
+
+### Hapi 2: Instalo
+1. Hap skedarin `Takvimi.dmg` që shkarkove
+2. Tërhiq `KosovoTakvim.app` në dosjen **Applications**
+
+### Hapi 3: Hap Aplikacionin (E rëndësishme!)
+
+Meqë ky aplikacion nuk është nga App Store, macOS do ta bllokojë herën e parë. Ja si ta hapësh:
+
+#### Opsioni A - Metoda e Klikimit të Djathtë (Rekomanduar)
+1. Hap dosjen **Applications**
+2. Gjej **KosovoTakvim**
+3. **Kliko me të djathtën** (ose Control+klik) mbi aplikacion
+4. Zgjidh **"Open"** nga menyja
+5. Kliko **"Open"** në dialogun që shfaqet
+
+#### Opsioni B - Metoda e System Settings
+1. Provo të hapësh aplikacionin normalisht (do të bllokohet)
+2. Hap **System Settings** → **Privacy & Security**
+3. Shkoni poshtë derisa të shihni "KosovoTakvim was blocked..."
+4. Kliko **"Open Anyway"**
+5. Shkruaj fjalëkalimin nëse kërkohet
+
+✅ **Pasi ta bësh këtë një herë, aplikacioni do të hapet normalisht përgjithmonë!**
+
+---
+
+## ✨ Veçoritë
+
+- 🕌 **Kohët e namazit** për të gjitha qytetet kryesore të Kosovës
   - Prishtina, Prizren, Peja, Gjakova, Mitrovica, Ferizaj, Gjilan
-- ⏱️ **Live countdown** to next prayer in menu bar
-- 🔔 **Notifications** before prayer time
-- 🎙️ **Custom voice reminders** - record your own message
-- 📅 **Official BIM Kosovo 2026** prayer times
-- 🚀 **Launch at login** option
+- ⏱️ **Numërim mbrapsht live** deri te namazi i ardhshëm në menu bar
+- 🔔 **Njoftime** para kohës së namazit
+- 🎙️ **Përkujtues me zë** - regjistro mesazhin tënd
+- 📅 **Kohët zyrtare të BIM Kosovë 2026**
+- 🚀 **Hap me ndezjen e kompjuterit**
 
 ---
 
-## 📍 How It Works
+## 📍 Si Funksionon
 
-The app lives in your menu bar (top-right of your screen) showing the countdown to the next prayer. Click it to see all prayer times for the day.
-
----
-
-## 💻 Requirements
-
-- macOS 13.0 (Ventura) or later
-- External microphone for voice reminders (Mac mini users need AirPods or USB mic)
+Aplikacioni qëndron në menu bar (lart-djathtas të ekranit) duke shfaqur numërimin mbrapsht deri te namazi i ardhshëm. Klikoje për të parë të gjitha kohët e namazit për ditën.
 
 ---
 
-## 🏗️ Building from Source
+## 💻 Kërkesat
 
-1. Clone this repository
-2. Open `KosovoTakvim.xcodeproj` in Xcode
+- macOS 13.0 (Ventura) ose më i ri
+- Mikrofon i jashtëm për përkujtues me zë (përdoruesit e Mac mini kanë nevojë për AirPods ose mikrofon USB)
+
+---
+
+## 🏗️ Ndërtimi nga Kodi
+
+1. Klono këtë repository
+2. Hap `KosovoTakvim.xcodeproj` në Xcode
 3. Build and run (⌘+R)
 
 ---
 
-## 📄 License
+## 📄 Licenca
 
-MIT License - feel free to use and modify.
+MIT License - përdore dhe modifiko lirisht.
 
 ---
 
-Made with ❤️ for the Muslim community in Kosovo
+Bërë me ❤️ për komunitetin mysliman në Kosovë
