@@ -2,6 +2,14 @@
 
 Aplikacion për Mac që shfaq kohët e namazit për qytetet e Kosovës duke përdorur të dhënat zyrtare të BIK (Bashkësia Islame e Kosovës).
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/settings.png" alt="Cilësimet" width="280"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="screenshots/voice-recorder.png" alt="Regjistro Zërin" width="280"/>
+</p>
+
 ![macOS](https://img.shields.io/badge/macOS-13.0+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## ⬇️ Shkarko
