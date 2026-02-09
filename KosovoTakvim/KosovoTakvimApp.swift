@@ -49,8 +49,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "Takvimi")
             button.title = " ..."
             button.imagePosition = .imageLeading
-            button.action = #selector(togglePopover)
+            button.action = #selector(handleStatusBarClick)
             button.target = self
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
     }
 
@@ -140,7 +141,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    @objc private func togglePopover() {
+    @objc private func handleStatusBarClick() {
+        guard let event = NSApp.currentEvent else { return }
+
+        if event.type == .rightMouseUp {
+            showContextMenu()
+        } else {
+            togglePopover()
+        }
+    }
+
+    private func togglePopover() {
         guard let button = statusItem?.button, let popover = popover else { return }
 
         if popover.isShown {
@@ -152,6 +163,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.activate(ignoringOtherApps: true)
             startEventMonitor()
         }
+    }
+
+    private func showContextMenu() {
+        let menu = NSMenu()
+
+        let refreshItem = NSMenuItem(title: "Rifresko", action: #selector(refreshAction), keyEquivalent: "r")
+        refreshItem.target = self
+        menu.addItem(refreshItem)
+
+        menu.addItem(NSMenuItem.separator())
+
+        let quitItem = NSMenuItem(title: "Dil", action: #selector(quitAction), keyEquivalent: "q")
+        quitItem.target = self
+        menu.addItem(quitItem)
+
+        statusItem?.menu = menu
+        statusItem?.button?.performClick(nil)
+        statusItem?.menu = nil
+    }
+
+    @objc private func refreshAction() {
+        viewModel?.refreshPrayerTimes()
+        updateMenuBarText()
+    }
+
+    @objc private func quitAction() {
+        NSApplication.shared.terminate(nil)
     }
 
     private func closePopover() {
