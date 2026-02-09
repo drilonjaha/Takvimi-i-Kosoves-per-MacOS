@@ -19,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var viewModel: MenuBarViewModel?
     private var updateTimer: Timer?
     private var eventMonitor: Any?
+    private var rightClickMonitor: Any?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hide dock icon
@@ -47,9 +48,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if let button = statusItem?.button {
             button.title = " ..."
-            button.action = #selector(handleStatusBarClick)
+            button.action = #selector(togglePopover)
             button.target = self
-            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        }
+
+        // Monitor right-clicks on the status bar button
+        rightClickMonitor = NSEvent.addLocalMonitorForEvents(matching: .rightMouseDown) { [weak self] event in
+            guard let self = self,
+                  let button = self.statusItem?.button,
+                  let window = button.window,
+                  window == event.window else {
+                return event
+            }
+            self.showContextMenu()
+            return nil // consume the event
         }
     }
 
@@ -152,17 +164,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    @objc private func handleStatusBarClick() {
-        guard let event = NSApp.currentEvent else { return }
-
-        if event.type == .rightMouseUp {
-            showContextMenu()
-        } else {
-            togglePopover()
-        }
-    }
-
-    private func togglePopover() {
+    @objc private func togglePopover() {
         guard let button = statusItem?.button, let popover = popover else { return }
 
         if popover.isShown {
@@ -178,25 +180,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func showContextMenu() {
+        // Close popover first if open
+        if popover?.isShown == true {
+            closePopover()
+        }
+
         let menu = NSMenu()
 
-        let refreshItem = NSMenuItem(title: "Rifresko", action: #selector(refreshAction), keyEquivalent: "r")
+        let refreshItem = NSMenuItem(title: "Rifresko", action: #selector(refreshAction), keyEquivalent: "")
         refreshItem.target = self
         menu.addItem(refreshItem)
 
-        let updateItem = NSMenuItem(title: "Kontrollo përditësimet", action: #selector(checkUpdateAction), keyEquivalent: "u")
+        let updateItem = NSMenuItem(title: "Kontrollo përditësimet", action: #selector(checkUpdateAction), keyEquivalent: "")
         updateItem.target = self
         menu.addItem(updateItem)
 
         menu.addItem(NSMenuItem.separator())
 
-        let quitItem = NSMenuItem(title: "Dil", action: #selector(quitAction), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "Dil", action: #selector(quitAction), keyEquivalent: "")
         quitItem.target = self
         menu.addItem(quitItem)
 
-        statusItem?.menu = menu
-        statusItem?.button?.performClick(nil)
-        statusItem?.menu = nil
+        if let button = statusItem?.button {
+            menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 5), in: button)
+        }
     }
 
     @objc private func refreshAction() {
@@ -242,5 +249,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         updateTimer?.invalidate()
         stopEventMonitor()
+        if let monitor = rightClickMonitor {
+            NSEvent.removeMonitor(monitor)
+        }
     }
 }
