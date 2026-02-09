@@ -170,6 +170,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             viewModel?.updateCurrentTime()
             viewModel?.startPopoverUpdates()
+            Task { await viewModel?.checkForUpdate() }
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
             startEventMonitor()
@@ -182,6 +183,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let refreshItem = NSMenuItem(title: "Rifresko", action: #selector(refreshAction), keyEquivalent: "r")
         refreshItem.target = self
         menu.addItem(refreshItem)
+
+        let updateItem = NSMenuItem(title: "Kontrollo përditësimet", action: #selector(checkUpdateAction), keyEquivalent: "u")
+        updateItem.target = self
+        menu.addItem(updateItem)
 
         menu.addItem(NSMenuItem.separator())
 
@@ -197,6 +202,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func refreshAction() {
         viewModel?.refreshPrayerTimes()
         updateMenuBarText()
+    }
+
+    @objc private func checkUpdateAction() {
+        Task {
+            await viewModel?.checkForUpdate()
+            if let vm = viewModel, vm.updateAvailable {
+                vm.openUpdate()
+            }
+        }
     }
 
     @objc private func quitAction() {
