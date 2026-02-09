@@ -92,26 +92,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Apply colored countdown text if enabled
         let coloredCountdown = UserDefaults.standard.object(forKey: "coloredCountdown") as? Bool ?? true
+        var useColor: NSColor? = nil
 
         if coloredCountdown, let next = viewModel.nextPrayer {
             let interval = next.time.timeIntervalSince(Date())
-            let color: NSColor
             if interval > 0 && interval <= 1800 { // < 30 min
-                color = .systemRed
+                useColor = .systemRed
             } else if interval > 0 && interval <= 3600 { // < 1 hour
-                color = .systemOrange
-            } else {
-                color = .controlTextColor
+                useColor = .systemOrange
             }
+        }
+
+        if let color = useColor {
+            button.title = ""
             button.attributedTitle = NSAttributedString(
                 string: " \(text)",
                 attributes: [.foregroundColor: color]
             )
         } else {
-            button.attributedTitle = NSAttributedString(
-                string: " \(text)",
-                attributes: [.foregroundColor: NSColor.controlTextColor]
-            )
+            button.attributedTitle = NSAttributedString(string: "")
+            button.title = " \(text)"
         }
     }
 
