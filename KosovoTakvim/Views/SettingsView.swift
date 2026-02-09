@@ -14,6 +14,9 @@ struct SettingsView: View {
 
     var onCityChange: ((City) -> Void)?
     var onNotificationToggle: ((Bool) -> Void)?
+    var updateAvailable: Bool = false
+    var updateVersion: String?
+    var onUpdate: (() -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -131,6 +134,20 @@ struct SettingsView: View {
                             .onChange(of: launchAtLogin) { newValue in
                                 updateLaunchAtLogin(newValue)
                             }
+
+                        if updateAvailable, let version = updateVersion {
+                            Button(action: { onUpdate?() }) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "arrow.down.circle.fill")
+                                        .font(.system(size: 14))
+                                    Text("Përditëso në v\(version)")
+                                        .font(.system(size: 12, weight: .medium))
+                                }
+                                .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.green)
+                        }
                     }
 
                     Spacer(minLength: 16)

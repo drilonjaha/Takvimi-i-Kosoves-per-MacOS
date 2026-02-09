@@ -95,7 +95,10 @@ struct MenuBarView: View {
                 },
                 onNotificationToggle: { enabled in
                     viewModel.toggleNotifications(enabled)
-                }
+                },
+                updateAvailable: viewModel.updateAvailable,
+                updateVersion: viewModel.updateVersion,
+                onUpdate: { viewModel.openUpdate() }
             )
         }
     }
