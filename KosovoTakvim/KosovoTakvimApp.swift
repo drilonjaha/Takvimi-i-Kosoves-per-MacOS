@@ -123,8 +123,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let configuredImage = symbolImage.withSymbolConfiguration(config) ?? symbolImage
             let attachment = NSTextAttachment()
             attachment.image = configuredImage
-            let iconHeight = font.capHeight
-            attachment.bounds = CGRect(x: 0, y: (font.capHeight - iconHeight) / 2, width: iconHeight, height: iconHeight)
+            let iconSize = font.pointSize
+            attachment.bounds = CGRect(x: 0, y: -font.descender - 1, width: iconSize, height: iconSize)
             result.append(NSAttributedString(attachment: attachment))
         }
 
