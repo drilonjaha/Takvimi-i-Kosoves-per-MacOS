@@ -93,6 +93,8 @@ class MenuBarViewModel: ObservableObject {
     @AppStorage("selectedCityId") private var selectedCityId: String = City.default.id
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
 
+    var onPrayerDataChanged: (() -> Void)?
+
     private var updateTimer: Timer?
     private var midnightTimer: Timer?
 
@@ -148,6 +150,7 @@ class MenuBarViewModel: ObservableObject {
         do {
             prayerTimes = try await PrayerTimeService.shared.fetchPrayerTimes(for: selectedCity)
             updateNextPrayer()
+            onPrayerDataChanged?()
 
             if notificationsEnabled, let times = prayerTimes {
                 await NotificationService.shared.scheduleAllPrayerNotifications(times: times)

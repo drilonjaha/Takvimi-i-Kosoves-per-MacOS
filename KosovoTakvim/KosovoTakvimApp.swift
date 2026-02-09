@@ -56,6 +56,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if let viewModel = viewModel {
             popover?.contentViewController = NSHostingController(rootView: MenuBarView(viewModel: viewModel))
+
+            // Update menu bar when prayer data loads or city changes (targeted, no loop)
+            viewModel.onPrayerDataChanged = { [weak self] in
+                self?.updateMenuBarText()
+            }
         }
     }
 
