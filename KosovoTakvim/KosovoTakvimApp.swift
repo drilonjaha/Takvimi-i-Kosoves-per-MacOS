@@ -21,6 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var updateTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
     private var eventMonitor: Any?
+    private var isUpdatingMenuBar = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hide dock icon
@@ -78,7 +79,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateMenuBarText() {
+        guard !isUpdatingMenuBar else { return }
         guard let button = statusItem?.button, let viewModel = viewModel else { return }
+
+        isUpdatingMenuBar = true
+        defer { isUpdatingMenuBar = false }
 
         // Always refresh current time and next prayer before reading state
         viewModel.updateCurrentTime()
