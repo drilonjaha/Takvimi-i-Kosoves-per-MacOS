@@ -33,7 +33,8 @@ struct PrayerListView: View {
                             prayer: prayer,
                             time: times.time(for: prayer),
                             isNext: isNextPrayer(prayer, times: times),
-                            isPassed: isPassed(prayer, times: times)
+                            isPassed: isPassed(prayer, times: times),
+                            currentDate: currentDate
                         )
                     }
                 }
@@ -66,12 +67,9 @@ struct PrayerRowView: View {
     let time: Date
     let isNext: Bool
     let isPassed: Bool
+    let currentDate: Date
 
     private let timeFormatter = TimeFormatter.shared
-
-    // Timer to update countdown every second
-    @State private var now = Date()
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         HStack {
@@ -98,10 +96,6 @@ struct PrayerRowView: View {
                     .padding(.vertical, 2)
                     .background(Color.green.opacity(0.15))
                     .cornerRadius(4)
-                    .onReceive(timer) { _ in
-                        now = Date()
-                    }
-                    .id(now) // Force view refresh
             }
         }
         .padding(.horizontal, 12)

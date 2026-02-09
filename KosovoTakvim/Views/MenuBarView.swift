@@ -96,6 +96,7 @@ class MenuBarViewModel: ObservableObject {
     var onPrayerDataChanged: (() -> Void)?
 
     private var midnightTimer: Timer?
+    private var popoverTimer: Timer?
 
     init() {
         self.selectedCity = City.find(by: UserDefaults.standard.string(forKey: "selectedCityId") ?? City.default.id) ?? City.default
@@ -124,6 +125,20 @@ class MenuBarViewModel: ObservableObject {
     func updateCurrentTime() {
         currentDate = Date()
         updateNextPrayer()
+    }
+
+    func startPopoverUpdates() {
+        popoverTimer?.invalidate()
+        popoverTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                self?.updateCurrentTime()
+            }
+        }
+    }
+
+    func stopPopoverUpdates() {
+        popoverTimer?.invalidate()
+        popoverTimer = nil
     }
 
     private func updateNextPrayer() {
@@ -193,6 +208,7 @@ class MenuBarViewModel: ObservableObject {
 
     deinit {
         midnightTimer?.invalidate()
+        popoverTimer?.invalidate()
     }
 }
 

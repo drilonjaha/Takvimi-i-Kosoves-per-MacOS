@@ -147,6 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             closePopover()
         } else {
             viewModel?.updateCurrentTime()
+            viewModel?.startPopoverUpdates()
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
             startEventMonitor()
@@ -155,6 +156,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func closePopover() {
         popover?.performClose(nil)
+        viewModel?.stopPopoverUpdates()
         stopEventMonitor()
     }
 
