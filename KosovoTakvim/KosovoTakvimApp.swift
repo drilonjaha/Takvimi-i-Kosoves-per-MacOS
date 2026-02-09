@@ -80,22 +80,60 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func updateMenuBarText() {
         guard let button = statusItem?.button, let viewModel = viewModel else { return }
 
-        let text = viewModel.menuBarText
-        button.title = " \(text)"
+        // Always refresh current time and next prayer before reading state
+        viewModel.updateCurrentTime()
 
-        // Update icon based on proximity to next prayer
-        if let next = viewModel.nextPrayer {
+        let text = viewModel.menuBarText
+
+        // Update icon based on current time of day
+        let iconName = timeOfDayIcon(for: viewModel)
+        button.image = NSImage(systemSymbolName: iconName, accessibilityDescription: "Takvimi")
+        button.contentTintColor = nil // Never tint the whole button
+
+        // Apply colored countdown text if enabled
+        let coloredCountdown = UserDefaults.standard.object(forKey: "coloredCountdown") as? Bool ?? true
+
+        if coloredCountdown, let next = viewModel.nextPrayer {
             let interval = next.time.timeIntervalSince(Date())
-            if interval <= 300 { // 5 minutes
-                button.image = NSImage(systemSymbolName: "bell.fill", accessibilityDescription: "Prayer soon")
-                button.contentTintColor = .systemOrange
-            } else if interval <= 900 { // 15 minutes
-                button.image = NSImage(systemSymbolName: "bell", accessibilityDescription: "Prayer approaching")
-                button.contentTintColor = .systemYellow
+            let color: NSColor
+            if interval > 0 && interval <= 1800 { // < 30 min
+                color = .systemRed
+            } else if interval > 0 && interval <= 3600 { // < 1 hour
+                color = .systemOrange
             } else {
-                button.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "Takvimi")
-                button.contentTintColor = nil
+                color = .controlTextColor
             }
+            button.attributedTitle = NSAttributedString(
+                string: " \(text)",
+                attributes: [.foregroundColor: color]
+            )
+        } else {
+            button.attributedTitle = NSAttributedString(
+                string: " \(text)",
+                attributes: [.foregroundColor: NSColor.controlTextColor]
+            )
+        }
+    }
+
+    private func timeOfDayIcon(for viewModel: MenuBarViewModel) -> String {
+        guard let times = viewModel.prayerTimes else { return "moon.stars" }
+        let now = Date()
+
+        // Determine which prayer period we're in
+        if now < times.imsak {
+            return "moon.stars"      // Night (before Imsak)
+        } else if now < times.sunrise {
+            return "sunrise"         // Pre-dawn / Fajr period
+        } else if now < times.dhuhr {
+            return "sun.max"         // Morning
+        } else if now < times.asr {
+            return "sun.max.fill"    // Midday / early afternoon
+        } else if now < times.maghrib {
+            return "sun.min"         // Late afternoon
+        } else if now < times.isha {
+            return "sunset"          // Evening
+        } else {
+            return "moon.stars"      // Night (after Isha)
         }
     }
 

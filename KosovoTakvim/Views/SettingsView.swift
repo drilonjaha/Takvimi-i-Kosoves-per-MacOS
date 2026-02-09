@@ -7,6 +7,7 @@ struct SettingsView: View {
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("launchAtLogin") private var launchAtLogin: Bool = false
     @AppStorage("voiceRemindersEnabled") private var voiceRemindersEnabled: Bool = true
+    @AppStorage("coloredCountdown") private var coloredCountdown: Bool = true
 
     @Environment(\.dismiss) private var dismiss
     @State private var showVoiceRecorder = false
@@ -79,6 +80,10 @@ struct SettingsView: View {
                         Toggle("Shfaq emrin e namazit", isOn: $showPrayerName)
                             .toggleStyle(.checkbox)
                             .font(.system(size: 13))
+
+                        Toggle("Ngjyrat e kohes (portokalli < 1h, kuq < 30m)", isOn: $coloredCountdown)
+                            .toggleStyle(.checkbox)
+                            .font(.system(size: 13))
                     }
 
                     Divider()
@@ -137,7 +142,7 @@ struct SettingsView: View {
             // Footer
             HStack {
                 Spacer()
-                Text("Takvimi v1.1")
+                Text("Takvimi v1.2")
                     .font(.system(size: 10))
                     .foregroundColor(.secondary)
                 Spacer()
