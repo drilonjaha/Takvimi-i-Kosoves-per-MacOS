@@ -24,6 +24,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Hide dock icon
         NSApp.setActivationPolicy(.accessory)
 
+        // Prevent macOS from auto-terminating this menu bar app
+        ProcessInfo.processInfo.disableAutomaticTermination("Menu bar app running")
+        ProcessInfo.processInfo.disableSuddenTermination()
+
         setupMenuBar()
         setupPopover()
         startMenuBarUpdates()
@@ -32,6 +36,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Task {
             _ = await NotificationService.shared.requestAuthorization()
         }
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
     }
 
     private func setupMenuBar() {

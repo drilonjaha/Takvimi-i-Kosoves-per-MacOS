@@ -95,27 +95,14 @@ class MenuBarViewModel: ObservableObject {
 
     var onPrayerDataChanged: (() -> Void)?
 
-    private var updateTimer: Timer?
     private var midnightTimer: Timer?
 
     init() {
         self.selectedCity = City.find(by: UserDefaults.standard.string(forKey: "selectedCityId") ?? City.default.id) ?? City.default
-        setupTimers()
+        scheduleMidnightRefresh()
         Task {
             await loadPrayerTimes()
         }
-    }
-
-    private func setupTimers() {
-        // Update every minute
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.updateCurrentTime()
-            }
-        }
-
-        // Schedule midnight refresh
-        scheduleMidnightRefresh()
     }
 
     private func scheduleMidnightRefresh() {
@@ -205,7 +192,6 @@ class MenuBarViewModel: ObservableObject {
     }
 
     deinit {
-        updateTimer?.invalidate()
         midnightTimer?.invalidate()
     }
 }
