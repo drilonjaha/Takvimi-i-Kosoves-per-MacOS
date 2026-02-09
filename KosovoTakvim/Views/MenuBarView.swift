@@ -19,6 +19,26 @@ struct MenuBarView: View {
             .padding(.vertical, 8)
             .background(Color(nsColor: .windowBackgroundColor))
 
+            // Update banner
+            if viewModel.updateAvailable, let version = viewModel.updateVersion {
+                Button(action: { viewModel.openUpdate() }) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "arrow.down.circle.fill")
+                            .font(.system(size: 12))
+                        Text("Përditëso në v\(version)")
+                            .font(.system(size: 11, weight: .medium))
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(size: 9))
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(Color.green)
+                }
+                .buttonStyle(.plain)
+            }
+
             // Prayer list
             PrayerListView(
                 prayerTimes: viewModel.prayerTimes,
@@ -89,6 +109,9 @@ class MenuBarViewModel: ObservableObject {
     @Published var nextPrayer: (prayer: Prayer, time: Date)?
     @Published var isLoading = false
     @Published var error: String?
+    @Published var updateAvailable = false
+    @Published var updateVersion: String?
+    @Published var updateURL: URL?
 
     @AppStorage("selectedCityId") private var selectedCityId: String = City.default.id
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
@@ -103,6 +126,9 @@ class MenuBarViewModel: ObservableObject {
         scheduleMidnightRefresh()
         Task {
             await loadPrayerTimes()
+        }
+        Task {
+            await checkForUpdate()
         }
     }
 
@@ -189,6 +215,18 @@ class MenuBarViewModel: ObservableObject {
                 await NotificationService.shared.cancelAllNotifications()
             }
         }
+    }
+
+    func checkForUpdate() async {
+        let info = await UpdateService.checkForUpdate()
+        updateAvailable = info.available
+        updateVersion = info.version
+        updateURL = info.downloadURL
+    }
+
+    func openUpdate() {
+        guard let url = updateURL else { return }
+        NSWorkspace.shared.open(url)
     }
 
     var menuBarText: String {

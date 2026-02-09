@@ -20,6 +20,7 @@
 		A100000B229B000B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000B229B000A /* Assets.xcassets */; };
 		A100000D229B000C /* PrayerTimesData2026.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D229B000B /* PrayerTimesData2026.swift */; };
 		A100000E229B000D /* AudioReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000E229B000C /* AudioReminderService.swift */; };
+		A100000F229B000E /* UpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000F229B000D /* UpdateService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		A100000C229B000B /* KosovoTakvim.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KosovoTakvim.entitlements; sourceTree = "<group>"; };
 		A100000D229B000B /* PrayerTimesData2026.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesData2026.swift; sourceTree = "<group>"; };
 		A100000E229B000C /* AudioReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioReminderService.swift; sourceTree = "<group>"; };
+		A100000F229B000D /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				A1000006229B0005 /* NotificationService.swift */,
 				A100000D229B000B /* PrayerTimesData2026.swift */,
 				A100000E229B000C /* AudioReminderService.swift */,
+				A100000F229B000D /* UpdateService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				A1000009229B0009 /* SettingsView.swift in Sources */,
 				A100000A229B000A /* TimeFormatter.swift in Sources */,
 				A100000E229B000D /* AudioReminderService.swift in Sources */,
+				A100000F229B000E /* UpdateService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

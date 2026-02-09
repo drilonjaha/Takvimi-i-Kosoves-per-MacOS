@@ -142,7 +142,7 @@ struct SettingsView: View {
             // Footer
             HStack {
                 Spacer()
-                Text("Takvimi v1.2.1")
+                Text("Takvimi v\(UpdateService.currentVersion)")
                     .font(.system(size: 10))
                     .foregroundColor(.secondary)
                 Spacer()
