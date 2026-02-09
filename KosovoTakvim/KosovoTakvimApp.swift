@@ -1,6 +1,5 @@
 import SwiftUI
 import AppKit
-import Combine
 
 @main
 struct KosovoTakvimApp: App {
@@ -19,9 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var popover: NSPopover?
     private var viewModel: MenuBarViewModel?
     private var updateTimer: Timer?
-    private var cancellables = Set<AnyCancellable>()
     private var eventMonitor: Any?
-    private var isUpdatingMenuBar = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hide dock icon
@@ -59,14 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if let viewModel = viewModel {
             popover?.contentViewController = NSHostingController(rootView: MenuBarView(viewModel: viewModel))
-
-            // Observe viewModel changes to update menu bar immediately
-            viewModel.objectWillChange
-                .receive(on: RunLoop.main)
-                .sink { [weak self] _ in
-                    self?.updateMenuBarText()
-                }
-                .store(in: &cancellables)
         }
     }
 
@@ -79,13 +68,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateMenuBarText() {
-        guard !isUpdatingMenuBar else { return }
         guard let button = statusItem?.button, let viewModel = viewModel else { return }
 
-        isUpdatingMenuBar = true
-        defer { isUpdatingMenuBar = false }
-
-        // Always refresh current time and next prayer before reading state
+        // Refresh current time and next prayer before reading state
         viewModel.updateCurrentTime()
 
         let text = viewModel.menuBarText
