@@ -46,9 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "moon.stars", accessibilityDescription: "Takvimi")
             button.title = " ..."
-            button.imagePosition = .imageLeading
             button.action = #selector(handleStatusBarClick)
             button.target = self
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -88,35 +86,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         viewModel.updateCurrentTime()
 
         let text = viewModel.menuBarText
-
-        // Update icon based on current time of day
         let iconName = timeOfDayIcon(for: viewModel)
-        button.image = NSImage(systemSymbolName: iconName, accessibilityDescription: "Takvimi")
-        button.contentTintColor = nil // Never tint the whole button
 
-        // Apply colored countdown text if enabled
+        // Determine text color
         let coloredCountdown = UserDefaults.standard.object(forKey: "coloredCountdown") as? Bool ?? true
-        var useColor: NSColor? = nil
+        var textColor: NSColor? = nil
 
         if coloredCountdown, let next = viewModel.nextPrayer {
             let interval = next.time.timeIntervalSince(Date())
-            if interval > 0 && interval <= 1800 { // < 30 min
-                useColor = .systemRed
-            } else if interval > 0 && interval <= 3600 { // < 1 hour
-                useColor = .systemOrange
+            if interval > 0 && interval <= 1800 {
+                textColor = .systemRed
+            } else if interval > 0 && interval <= 3600 {
+                textColor = .systemOrange
             }
         }
 
-        if let color = useColor {
-            button.title = ""
-            button.attributedTitle = NSAttributedString(
-                string: " \(text)",
-                attributes: [.foregroundColor: color]
-            )
-        } else {
-            button.attributedTitle = NSAttributedString(string: "")
-            button.title = " \(text)"
+        // Build combined icon + text attributed string for proper alignment
+        let result = NSMutableAttributedString()
+
+        // Icon as text attachment
+        let font = NSFont.menuBarFont(ofSize: 0)
+        if let symbolImage = NSImage(systemSymbolName: iconName, accessibilityDescription: "Takvimi") {
+            let config = NSImage.SymbolConfiguration(pointSize: font.pointSize, weight: .regular)
+            let configuredImage = symbolImage.withSymbolConfiguration(config) ?? symbolImage
+            let attachment = NSTextAttachment()
+            attachment.image = configuredImage
+            let iconHeight = font.capHeight
+            attachment.bounds = CGRect(x: 0, y: (font.capHeight - iconHeight) / 2, width: iconHeight, height: iconHeight)
+            result.append(NSAttributedString(attachment: attachment))
         }
+
+        // Space + text
+        let textAttrs: [NSAttributedString.Key: Any]
+        if let color = textColor {
+            textAttrs = [.font: font, .foregroundColor: color, .baselineOffset: 0]
+        } else {
+            textAttrs = [.font: font, .baselineOffset: 0]
+        }
+        result.append(NSAttributedString(string: " \(text)", attributes: textAttrs))
+
+        button.image = nil
+        button.title = ""
+        button.attributedTitle = result
     }
 
     private func timeOfDayIcon(for viewModel: MenuBarViewModel) -> String {
