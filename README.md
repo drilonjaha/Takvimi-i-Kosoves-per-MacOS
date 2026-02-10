@@ -25,7 +25,7 @@ Aplikacion per Mac qe shfaq kohet e namazit per qytetet ne Evrope. Perdor te dhe
 
 ## Shkarko
 
-**[Shkarko Takvimi.dmg](https://github.com/drilonjaha/Takvimi-i-Kosoves-per-MacOS/releases/latest/download/Takvimi.dmg)**
+**[Shkarko KosovoTakvim.dmg](https://github.com/drilonjaha/Takvimi-i-Kosoves-per-MacOS/releases/latest/download/KosovoTakvim.dmg)**
 
 Ose shko te faqja [Releases](https://github.com/drilonjaha/Takvimi-i-Kosoves-per-MacOS/releases).
 
@@ -34,10 +34,10 @@ Ose shko te faqja [Releases](https://github.com/drilonjaha/Takvimi-i-Kosoves-per
 ## Si te Instalosh
 
 ### Hapi 1: Shkarko
-Kliko linkun e shkarkimit me lart per te marre `Takvimi.dmg`
+Kliko linkun e shkarkimit me lart per te marre `KosovoTakvim.dmg`
 
 ### Hapi 2: Instalo
-1. Hap skedarin `Takvimi.dmg` qe shkarkove
+1. Hap skedarin `KosovoTakvim.dmg` qe shkarkove
 2. Terhiq `KosovoTakvim.app` ne dosjen **Applications**
 
 ### Hapi 3: Hap Aplikacionin (E rendesishme!)
