@@ -72,31 +72,31 @@ struct PrayerRowView: View {
     private let timeFormatter = TimeFormatter.shared
 
     var body: some View {
-        HStack {
+        HStack(spacing: 6) {
             Image(systemName: prayer.icon)
                 .font(.system(size: 14))
                 .foregroundColor(iconColor)
-                .frame(width: 20)
+                .frame(width: 24, alignment: .center)
 
             Text(prayer.rawValue)
                 .font(.system(size: 13, weight: isNext ? .semibold : .regular))
                 .foregroundColor(textColor)
+
+            if isNext {
+                Text(timeFormatter.formatCountdown(to: time))
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.green)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                    .background(Color.green.opacity(0.15))
+                    .cornerRadius(4)
+            }
 
             Spacer()
 
             Text(timeFormatter.formatTime(time))
                 .font(.system(size: 13, weight: isNext ? .semibold : .regular, design: .monospaced))
                 .foregroundColor(textColor)
-
-            if isNext {
-                Text(timeFormatter.formatCountdown(to: time))
-                    .font(.system(size: 11))
-                    .foregroundColor(.green)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.green.opacity(0.15))
-                    .cornerRadius(4)
-            }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)

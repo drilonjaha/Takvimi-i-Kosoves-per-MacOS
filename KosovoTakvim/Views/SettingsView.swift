@@ -269,7 +269,8 @@ struct VoiceRecordingRow: View {
     var body: some View {
         HStack {
             Image(systemName: prayer.icon)
-                .frame(width: 24)
+                .font(.system(size: 14))
+                .frame(width: 24, alignment: .center)
                 .foregroundColor(.accentColor)
 
             Text(prayer.rawValue)
