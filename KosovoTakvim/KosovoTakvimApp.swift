@@ -113,36 +113,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        // Build combined icon + text attributed string for proper alignment
-        let result = NSMutableAttributedString()
-
-        // Icon as text attachment
-        let font = NSFont.menuBarFont(ofSize: 0)
+        // Use button.image for the icon (macOS handles alignment automatically)
+        let iconSize: CGFloat = 14
+        let config = NSImage.SymbolConfiguration(pointSize: iconSize, weight: .regular)
         if let symbolImage = NSImage(systemSymbolName: iconName, accessibilityDescription: "Takvimi") {
-            var config = NSImage.SymbolConfiguration(pointSize: font.pointSize, weight: .regular)
-            if let color = textColor {
-                config = config.applying(NSImage.SymbolConfiguration(paletteColors: [color]))
-            }
-            let configuredImage = symbolImage.withSymbolConfiguration(config) ?? symbolImage
-            let attachment = NSTextAttachment()
-            attachment.image = configuredImage
-            let iconSize = font.pointSize
-            attachment.bounds = CGRect(x: 0, y: round((font.capHeight - iconSize) / 2), width: iconSize, height: iconSize)
-            result.append(NSAttributedString(attachment: attachment))
+            let configured = symbolImage.withSymbolConfiguration(config) ?? symbolImage
+            configured.isTemplate = true
+            button.image = configured
+            button.imagePosition = .imageLeading
         }
 
-        // Space + text
-        let textAttrs: [NSAttributedString.Key: Any]
+        // Set text with optional color
+        let font = NSFont.menuBarFont(ofSize: 0)
         if let color = textColor {
-            textAttrs = [.font: font, .foregroundColor: color, .baselineOffset: 0]
+            button.attributedTitle = NSAttributedString(string: text, attributes: [
+                .font: font,
+                .foregroundColor: color
+            ])
+            // Also tint the icon to match
+            if let symbolImage = NSImage(systemSymbolName: iconName, accessibilityDescription: "Takvimi") {
+                let colorConfig = config.applying(NSImage.SymbolConfiguration(paletteColors: [color]))
+                let coloredImage = symbolImage.withSymbolConfiguration(colorConfig) ?? symbolImage
+                coloredImage.isTemplate = false
+                button.image = coloredImage
+            }
         } else {
-            textAttrs = [.font: font, .baselineOffset: 0]
+            button.attributedTitle = NSAttributedString(string: text, attributes: [.font: font])
         }
-        result.append(NSAttributedString(string: " \(text)", attributes: textAttrs))
-
-        button.image = nil
-        button.title = ""
-        button.attributedTitle = result
     }
 
     private func timeOfDayIcon(for viewModel: MenuBarViewModel) -> String {
