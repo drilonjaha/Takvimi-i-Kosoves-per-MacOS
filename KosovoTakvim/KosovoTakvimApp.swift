@@ -86,7 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func startMenuBarUpdates() {
         updateMenuBarText()
 
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.updateMenuBarText()
         }
     }
