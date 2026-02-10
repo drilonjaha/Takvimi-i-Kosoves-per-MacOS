@@ -104,10 +104,8 @@ class AudioReminderService: NSObject, ObservableObject {
             mediaType: .audio,
             position: .unspecified
         )
-        print("Available audio devices: \(discoverySession.devices.map { $0.localizedName })")
 
         if discoverySession.devices.isEmpty {
-            print("ERROR: No audio input devices found!")
             DispatchQueue.main.async {
                 self.permissionDenied = true
             }
@@ -115,7 +113,6 @@ class AudioReminderService: NSObject, ObservableObject {
         }
 
         let audioURL = getAudioURL(for: prayer)
-        print("Starting recording at: \(audioURL.path)")
 
         // Use simpler settings that are more compatible
         let settings: [String: Any] = [
@@ -132,7 +129,6 @@ class AudioReminderService: NSObject, ObservableObject {
             audioRecorder?.prepareToRecord()
 
             let success = audioRecorder?.record() ?? false
-            print("Recording started: \(success)")
 
             if success {
                 DispatchQueue.main.async {
@@ -140,18 +136,12 @@ class AudioReminderService: NSObject, ObservableObject {
                     self.recordingPrayer = prayer
                 }
             } else {
-                print("Failed to start recording - record() returned false")
-                print("Recorder device settings: \(audioRecorder?.settings ?? [:])")
             }
         } catch {
-            print("Failed to create recorder: \(error)")
-        }
+            }
     }
 
     func stopRecording() {
-        let duration = audioRecorder?.currentTime ?? 0
-        print("Stopping recording, duration: \(duration)s")
-
         audioRecorder?.stop()
         audioRecorder = nil
 
@@ -167,7 +157,6 @@ class AudioReminderService: NSObject, ObservableObject {
         let url = getAudioURL(for: prayer)
 
         guard fileManager.fileExists(atPath: url.path) else {
-            print("No recording found for \(prayer.rawValue)")
             return
         }
 
@@ -181,22 +170,15 @@ class AudioReminderService: NSObject, ObservableObject {
             audioPlayer?.prepareToPlay()
 
             // Check if recording has content
-            guard let duration = audioPlayer?.duration, duration > 0.1 else {
-                print("Recording for \(prayer.rawValue) is empty or too short")
-                return
-            }
+            guard let player = audioPlayer, player.duration > 0.1 else { return }
 
-            let success = audioPlayer?.play() ?? false
-            print("Playing recording for \(prayer.rawValue): \(success), duration: \(duration)s")
-
-            if success {
+            if audioPlayer?.play() == true {
                 DispatchQueue.main.async {
                     self.isPlaying = true
                     self.playingPrayer = prayer
                 }
             }
         } catch {
-            print("Failed to play recording: \(error)")
         }
     }
 

@@ -28,10 +28,7 @@ enum Prayer: String, CaseIterable, Identifiable {
         self != .sunrise && self != .imsak
     }
 
-    // Whether to show in main prayer list
-    var isDisplayed: Bool {
-        true
-    }
+
 }
 
 struct DailyPrayerTimes: Codable {
@@ -99,23 +96,4 @@ struct DailyPrayerTimes: Codable {
         return nil
     }
 
-    func previousPrayer(before date: Date = Date()) -> (prayer: Prayer, time: Date)? {
-        let prayers: [(Prayer, Date)] = [
-            (.isha, isha),
-            (.maghrib, maghrib),
-            (.asr, asr),
-            (.dhuhr, dhuhr),
-            (.sunrise, sunrise),
-            (.fajr, fajr),
-            (.imsak, imsak)
-        ]
-
-        for (prayer, time) in prayers {
-            if time <= date {
-                return (prayer, time)
-            }
-        }
-
-        return nil
-    }
 }

@@ -19,8 +19,7 @@ class NotificationService {
             )
             return granted
         } catch {
-            print("Notification authorization error: \(error)")
-            return false
+                return false
         }
     }
 
@@ -57,9 +56,7 @@ class NotificationService {
 
         do {
             try await UNUserNotificationCenter.current().add(request)
-            print("Scheduled reminder for \(prayer.rawValue) at \(reminderTime)")
         } catch {
-            print("Failed to schedule notification: \(error)")
         }
     }
 
@@ -85,7 +82,6 @@ class NotificationService {
         do {
             try await UNUserNotificationCenter.current().add(request)
         } catch {
-            print("Failed to schedule notification: \(error)")
         }
     }
 

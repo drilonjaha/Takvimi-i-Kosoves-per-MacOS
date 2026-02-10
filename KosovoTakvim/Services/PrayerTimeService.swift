@@ -167,8 +167,4 @@ actor PrayerTimeService {
         UserDefaults.standard.set(encoded, forKey: cacheKey)
     }
 
-    func clearCache() {
-        cache.removeAll()
-        UserDefaults.standard.removeObject(forKey: cacheKey)
-    }
 }

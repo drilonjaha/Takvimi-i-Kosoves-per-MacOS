@@ -7,9 +7,7 @@ struct City: Identifiable, Codable, Hashable {
     let latitude: Double
     let longitude: Double
 
-    var displayName: String {
-        "\(name), \(country.name)"
-    }
+
 }
 
 enum Country: String, Codable, CaseIterable, Identifiable {
