@@ -119,12 +119,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Icon as text attachment
         let font = NSFont.menuBarFont(ofSize: 0)
         if let symbolImage = NSImage(systemSymbolName: iconName, accessibilityDescription: "Takvimi") {
-            let config = NSImage.SymbolConfiguration(pointSize: font.pointSize, weight: .regular)
+            var config = NSImage.SymbolConfiguration(pointSize: font.pointSize, weight: .regular)
+            if let color = textColor {
+                config = config.applying(NSImage.SymbolConfiguration(paletteColors: [color]))
+            }
             let configuredImage = symbolImage.withSymbolConfiguration(config) ?? symbolImage
             let attachment = NSTextAttachment()
             attachment.image = configuredImage
             let iconSize = font.pointSize
-            attachment.bounds = CGRect(x: 0, y: -font.descender - 1, width: iconSize, height: iconSize)
+            attachment.bounds = CGRect(x: 0, y: round((font.capHeight - iconSize) / 2), width: iconSize, height: iconSize)
             result.append(NSAttributedString(attachment: attachment))
         }
 
