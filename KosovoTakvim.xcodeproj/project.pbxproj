@@ -21,6 +21,7 @@
 		A100000D229B000C /* PrayerTimesData2026.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000D229B000B /* PrayerTimesData2026.swift */; };
 		A100000E229B000D /* AudioReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000E229B000C /* AudioReminderService.swift */; };
 		A100000F229B000E /* UpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000F229B000D /* UpdateService.swift */; };
+		A1000010229B000F /* RamadanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010229B000E /* RamadanService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		A100000D229B000B /* PrayerTimesData2026.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesData2026.swift; sourceTree = "<group>"; };
 		A100000E229B000C /* AudioReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioReminderService.swift; sourceTree = "<group>"; };
 		A100000F229B000D /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
+		A1000010229B000E /* RamadanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamadanService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				A100000D229B000B /* PrayerTimesData2026.swift */,
 				A100000E229B000C /* AudioReminderService.swift */,
 				A100000F229B000D /* UpdateService.swift */,
+				A1000010229B000E /* RamadanService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				A100000A229B000A /* TimeFormatter.swift in Sources */,
 				A100000E229B000D /* AudioReminderService.swift in Sources */,
 				A100000F229B000E /* UpdateService.swift in Sources */,
+				A1000010229B000F /* RamadanService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

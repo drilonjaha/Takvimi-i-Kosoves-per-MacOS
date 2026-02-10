@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage("launchAtLogin") private var launchAtLogin: Bool = false
     @AppStorage("voiceRemindersEnabled") private var voiceRemindersEnabled: Bool = true
     @AppStorage("coloredCountdown") private var coloredCountdown: Bool = true
+    @AppStorage("ramadanModeEnabled") private var ramadanModeEnabled: Bool = true
 
     @Environment(\.dismiss) private var dismiss
     @State private var showVoiceRecorder = false
@@ -87,6 +88,31 @@ struct SettingsView: View {
                         Toggle("Ngjyrat e kohes (portokalli < 1h, kuq < 30m)", isOn: $coloredCountdown)
                             .toggleStyle(.checkbox)
                             .font(.system(size: 13))
+                    }
+
+                    Divider()
+
+                    // Ramadan Mode
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Ramazani")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.secondary)
+
+                        Toggle("Menyra e Ramazanit", isOn: $ramadanModeEnabled)
+                            .toggleStyle(.checkbox)
+                            .font(.system(size: 13))
+
+                        if RamadanService.isRamadan() {
+                            if let day = RamadanService.ramadanDay() {
+                                Text("Dita \(day) e Ramazanit")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(.orange)
+                            }
+                        } else {
+                            Text("Ramazani fillon me 19 Shkurt 2026")
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondary)
+                        }
                     }
 
                     Divider()

@@ -42,7 +42,12 @@ struct MenuBarView: View {
             // Prayer list
             PrayerListView(
                 prayerTimes: viewModel.prayerTimes,
-                currentDate: viewModel.currentDate
+                currentDate: viewModel.currentDate,
+                isRamadanActive: viewModel.isRamadanActive,
+                ramadanDay: viewModel.ramadanDay,
+                isFasting: viewModel.isFasting,
+                iftarCountdown: viewModel.iftarCountdown,
+                displayNameForPrayer: { viewModel.displayName(for: $0) }
             )
 
             Divider()
@@ -118,6 +123,7 @@ class MenuBarViewModel: ObservableObject {
 
     @AppStorage("selectedCityId") private var selectedCityId: String = City.default.id
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
+    @AppStorage("ramadanModeEnabled") var ramadanModeEnabled: Bool = true
 
     var onPrayerDataChanged: (() -> Void)?
 
@@ -232,16 +238,53 @@ class MenuBarViewModel: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
+    // MARK: - Ramadan
+
+    var isRamadanActive: Bool {
+        ramadanModeEnabled && RamadanService.isRamadan(date: currentDate)
+    }
+
+    var ramadanDay: Int? {
+        guard isRamadanActive else { return nil }
+        return RamadanService.ramadanDay(for: currentDate)
+    }
+
+    var isFasting: Bool {
+        guard isRamadanActive, let times = prayerTimes else { return false }
+        return RamadanService.isFasting(imsak: times.imsak, maghrib: times.maghrib, now: currentDate)
+    }
+
+    var iftarCountdown: String? {
+        guard isFasting, let times = prayerTimes else { return nil }
+        return TimeFormatter.shared.formatCountdown(to: times.maghrib, from: currentDate)
+    }
+
+    func displayName(for prayer: Prayer) -> String {
+        guard isRamadanActive else { return prayer.rawValue }
+        return RamadanService.ramadanDisplayName(for: prayer)
+    }
+
     var menuBarText: String {
         guard let next = nextPrayer else {
             return "..."
         }
 
-        let countdown = TimeFormatter.shared.formatCountdown(to: next.time)
         let showName = UserDefaults.standard.object(forKey: "showPrayerName") as? Bool ?? true
 
+        // During fasting hours, always show Iftar countdown
+        if isFasting, let iftarTime = iftarCountdown {
+            if showName {
+                return "Iftari \(iftarTime)"
+            } else {
+                return iftarTime
+            }
+        }
+
+        let countdown = TimeFormatter.shared.formatCountdown(to: next.time)
+        let name = displayName(for: next.prayer)
+
         if showName {
-            return "\(next.prayer.rawValue) \(countdown)"
+            return "\(name) \(countdown)"
         } else {
             return countdown
         }

@@ -3,6 +3,11 @@ import SwiftUI
 struct PrayerListView: View {
     let prayerTimes: DailyPrayerTimes?
     let currentDate: Date
+    var isRamadanActive: Bool = false
+    var ramadanDay: Int? = nil
+    var isFasting: Bool = false
+    var iftarCountdown: String? = nil
+    var displayNameForPrayer: ((Prayer) -> String)? = nil
 
     private let timeFormatter = TimeFormatter.shared
 
@@ -24,6 +29,38 @@ struct PrayerListView: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
 
+                // Ramadan header
+                if isRamadanActive, let day = ramadanDay {
+                    HStack(spacing: 6) {
+                        Image(systemName: "moon.stars.fill")
+                            .font(.system(size: 12))
+                        Text("Ramazani - Dita \(day)")
+                            .font(.system(size: 12, weight: .semibold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.orange)
+                }
+
+                // Iftar countdown badge
+                if isFasting, let countdown = iftarCountdown {
+                    HStack(spacing: 6) {
+                        Image(systemName: "sunset.fill")
+                            .font(.system(size: 14))
+                        Text("Iftari pas")
+                            .font(.system(size: 13, weight: .medium))
+                        Spacer()
+                        Text(countdown)
+                            .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    }
+                    .foregroundColor(.orange)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(Color.orange.opacity(0.12))
+                }
+
                 Divider()
 
                 // Prayer times list
@@ -34,7 +71,9 @@ struct PrayerListView: View {
                             time: times.time(for: prayer),
                             isNext: isNextPrayer(prayer, times: times),
                             isPassed: isPassed(prayer, times: times),
-                            currentDate: currentDate
+                            currentDate: currentDate,
+                            displayName: displayNameForPrayer?(prayer) ?? prayer.rawValue,
+                            isRamadanHighlight: isRamadanActive && (prayer == .imsak || prayer == .maghrib)
                         )
                     }
                 }
@@ -68,6 +107,8 @@ struct PrayerRowView: View {
     let isNext: Bool
     let isPassed: Bool
     let currentDate: Date
+    var displayName: String = ""
+    var isRamadanHighlight: Bool = false
 
     private let timeFormatter = TimeFormatter.shared
 
@@ -78,7 +119,7 @@ struct PrayerRowView: View {
                 .foregroundColor(iconColor)
                 .frame(width: 24, alignment: .center)
 
-            Text(prayer.rawValue)
+            Text(displayName.isEmpty ? prayer.rawValue : displayName)
                 .font(.system(size: 13, weight: isNext ? .semibold : .regular))
                 .foregroundColor(textColor)
 
@@ -104,6 +145,7 @@ struct PrayerRowView: View {
     }
 
     private var iconColor: Color {
+        if isRamadanHighlight && !isPassed { return .orange }
         if isNext { return .green }
         if isPassed { return .secondary }
         return .primary
