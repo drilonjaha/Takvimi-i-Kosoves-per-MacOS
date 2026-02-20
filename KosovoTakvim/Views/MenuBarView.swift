@@ -270,16 +270,6 @@ class MenuBarViewModel: ObservableObject {
         }
 
         let showName = UserDefaults.standard.object(forKey: "showPrayerName") as? Bool ?? true
-
-        // During fasting hours, always show Iftar countdown
-        if isFasting, let iftarTime = iftarCountdown {
-            if showName {
-                return "Iftari \(iftarTime)"
-            } else {
-                return iftarTime
-            }
-        }
-
         let countdown = TimeFormatter.shared.formatCountdown(to: next.time)
         let name = displayName(for: next.prayer)
 

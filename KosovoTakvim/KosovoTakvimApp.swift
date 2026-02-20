@@ -20,14 +20,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var updateTimer: Timer?
     private var eventMonitor: Any?
     private var rightClickMonitor: Any?
+    private var activity: NSObjectProtocol?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hide dock icon
         NSApp.setActivationPolicy(.accessory)
 
-        // Prevent macOS from auto-terminating this menu bar app
-        ProcessInfo.processInfo.disableAutomaticTermination("Menu bar app running")
-        ProcessInfo.processInfo.disableSuddenTermination()
+        // Keep app alive — beginActivity is the modern API that reliably prevents
+        // macOS from auto-terminating accessory/menu-bar apps with no visible windows.
+        // The old disableAutomaticTermination/disableSuddenTermination calls are
+        // unreliable with SwiftUI's App lifecycle.
+        activity = ProcessInfo.processInfo.beginActivity(
+            options: [.userInitiatedAllowingIdleSystemSleep, .suddenTerminationDisabled, .automaticTerminationDisabled],
+            reason: "Menu bar prayer time countdown must stay active"
+        )
 
         setupMenuBar()
         setupPopover()
@@ -251,6 +257,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        if let activity = activity {
+            ProcessInfo.processInfo.endActivity(activity)
+        }
         updateTimer?.invalidate()
         stopEventMonitor()
         if let monitor = rightClickMonitor {
