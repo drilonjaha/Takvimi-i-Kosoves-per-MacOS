@@ -22,6 +22,8 @@
 		A100000E229B000D /* AudioReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000E229B000C /* AudioReminderService.swift */; };
 		A100000F229B000E /* UpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000F229B000D /* UpdateService.swift */; };
 		A1000010229B000F /* RamadanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010229B000E /* RamadanService.swift */; };
+		A1000011229B0010 /* MosqueAttendanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000011229B000F /* MosqueAttendanceService.swift */; };
+		A1000012229B0011 /* MosqueAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000012229B0010 /* MosqueAttendanceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		A100000E229B000C /* AudioReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioReminderService.swift; sourceTree = "<group>"; };
 		A100000F229B000D /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
 		A1000010229B000E /* RamadanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamadanService.swift; sourceTree = "<group>"; };
+		A1000011229B000F /* MosqueAttendanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueAttendanceService.swift; sourceTree = "<group>"; };
+		A1000012229B0010 /* MosqueAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueAttendanceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,7 @@
 				A100000E229B000C /* AudioReminderService.swift */,
 				A100000F229B000D /* UpdateService.swift */,
 				A1000010229B000E /* RamadanService.swift */,
+				A1000011229B000F /* MosqueAttendanceService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -98,6 +103,7 @@
 				A1000007229B0006 /* MenuBarView.swift */,
 				A1000008229B0007 /* PrayerListView.swift */,
 				A1000009229B0008 /* SettingsView.swift */,
+				A1000012229B0010 /* MosqueAttendanceView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,6 +216,8 @@
 				A100000E229B000D /* AudioReminderService.swift in Sources */,
 				A100000F229B000E /* UpdateService.swift in Sources */,
 				A1000010229B000F /* RamadanService.swift in Sources */,
+				A1000011229B0010 /* MosqueAttendanceService.swift in Sources */,
+				A1000012229B0011 /* MosqueAttendanceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

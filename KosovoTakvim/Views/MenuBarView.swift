@@ -3,8 +3,17 @@ import SwiftUI
 struct MenuBarView: View {
     @ObservedObject var viewModel: MenuBarViewModel
     @State private var showingSettings = false
+    @State private var showingAttendance = false
 
     var body: some View {
+        if showingAttendance {
+            MosqueAttendanceView(onDismiss: { showingAttendance = false })
+        } else {
+            mainView
+        }
+    }
+
+    private var mainView: some View {
         VStack(spacing: 0) {
             // City header
             HStack {
@@ -62,6 +71,13 @@ struct MenuBarView: View {
                             .font(.system(size: 11))
                     }
                     .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+
+                Button(action: { showingAttendance = true }) {
+                    Image(systemName: "building.columns.fill")
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
 
