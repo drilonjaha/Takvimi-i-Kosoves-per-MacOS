@@ -1,17 +1,6 @@
 import SwiftUI
 import AppKit
 
-@main
-struct KosovoTakvimApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    var body: some Scene {
-        Settings {
-            EmptyView()
-        }
-    }
-}
-
 @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
@@ -23,13 +12,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var activity: NSObjectProtocol?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Hide dock icon
+        // Hide dock icon — LSUIElement=YES in Info.plist also does this,
+        // but this ensures it even when running from Xcode
         NSApp.setActivationPolicy(.accessory)
 
-        // Keep app alive — beginActivity is the modern API that reliably prevents
-        // macOS from auto-terminating accessory/menu-bar apps with no visible windows.
-        // The old disableAutomaticTermination/disableSuddenTermination calls are
-        // unreliable with SwiftUI's App lifecycle.
+        // Keep app alive — beginActivity creates an assertion that prevents
+        // macOS from auto-terminating or suspending this process
         activity = ProcessInfo.processInfo.beginActivity(
             options: [.userInitiatedAllowingIdleSystemSleep, .suddenTerminationDisabled, .automaticTerminationDisabled],
             reason: "Menu bar prayer time countdown must stay active"

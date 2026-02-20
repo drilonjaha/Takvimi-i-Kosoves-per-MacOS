@@ -1,7 +1,7 @@
 import Foundation
 
 struct UpdateService {
-    static let currentVersion = "1.2.92"
+    static let currentVersion = "1.3.0"
 
     private static let repo = "drilonjaha/Takvimi-i-Kosoves-per-MacOS"
     private static let apiURL = "https://api.github.com/repos/\(repo)/releases/latest"

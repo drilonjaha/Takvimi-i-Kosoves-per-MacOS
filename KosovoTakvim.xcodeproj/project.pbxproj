@@ -24,6 +24,7 @@
 		A1000010229B000F /* RamadanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010229B000E /* RamadanService.swift */; };
 		A1000011229B0010 /* MosqueAttendanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000011229B000F /* MosqueAttendanceService.swift */; };
 		A1000012229B0011 /* MosqueAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000012229B0010 /* MosqueAttendanceView.swift */; };
+		A1000013229B0012 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000013229B0011 /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		A1000010229B000E /* RamadanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamadanService.swift; sourceTree = "<group>"; };
 		A1000011229B000F /* MosqueAttendanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueAttendanceService.swift; sourceTree = "<group>"; };
 		A1000012229B0010 /* MosqueAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosqueAttendanceView.swift; sourceTree = "<group>"; };
+		A1000013229B0011 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		A10000A0229B0000 /* KosovoTakvim */ = {
 			isa = PBXGroup;
 			children = (
+				A1000013229B0011 /* main.swift */,
 				A1000001229B0000 /* KosovoTakvimApp.swift */,
 				A10000A1229B0000 /* Models */,
 				A10000A2229B0000 /* Services */,
@@ -218,6 +221,7 @@
 				A1000010229B000F /* RamadanService.swift in Sources */,
 				A1000011229B0010 /* MosqueAttendanceService.swift in Sources */,
 				A1000012229B0011 /* MosqueAttendanceView.swift in Sources */,
+				A1000013229B0012 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
