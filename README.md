@@ -4,22 +4,28 @@ Aplikacion per Mac qe shfaq kohet e namazit per qytetet ne Evrope. Perdor te dhe
 
 ![macOS](https://img.shields.io/badge/macOS-13.0+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
+## Si Duket
+
+https://github.com/user-attachments/assets/4c6db5c0-496a-49fc-83bb-4a6774d70348
+
+---
+
 ## Vendet e Mbeshtetura
 
-| Vendi | Qytetet |
-|-------|---------|
-| Kosova | Prishtina, Prizren, Peja, Gjakova, Mitrovica, Ferizaj, Gjilan |
-| Zvicra | Zurich, Geneve, Basel, Bern, Lausanne, Winterthur, St. Gallen, Lugano |
+| Vendi     | Qytetet                                                                    |
+| --------- | -------------------------------------------------------------------------- |
+| Kosova    | Prishtina, Prizren, Peja, Gjakova, Mitrovica, Ferizaj, Gjilan              |
+| Zvicra    | Zurich, Geneve, Basel, Bern, Lausanne, Winterthur, St. Gallen, Lugano      |
 | Gjermania | Berlin, Munchen, Frankfurt, Hamburg, Koln, Dusseldorf, Stuttgart, Dortmund |
-| Austria | Wien, Graz, Linz, Salzburg, Innsbruck |
-| Franca | Paris, Marseille, Lyon, Strasbourg, Toulouse |
-| Holanda | Amsterdam, Rotterdam, Den Haag, Utrecht |
-| Belgjika | Bruxelles, Antwerpen, Gent, Liege |
-| Suedia | Stockholm, Goteborg, Malmo |
-| Norvegjia | Oslo, Bergen |
-| Danimarka | Kobenhavn, Aarhus |
-| Britania | London, Birmingham, Manchester, Leeds |
-| Italia | Roma, Milano, Torino, Firenze |
+| Austria   | Wien, Graz, Linz, Salzburg, Innsbruck                                      |
+| Franca    | Paris, Marseille, Lyon, Strasbourg, Toulouse                               |
+| Holanda   | Amsterdam, Rotterdam, Den Haag, Utrecht                                    |
+| Belgjika  | Bruxelles, Antwerpen, Gent, Liege                                          |
+| Suedia    | Stockholm, Goteborg, Malmo                                                 |
+| Norvegjia | Oslo, Bergen                                                               |
+| Danimarka | Kobenhavn, Aarhus                                                          |
+| Britania  | London, Birmingham, Manchester, Leeds                                      |
+| Italia    | Roma, Milano, Torino, Firenze                                              |
 
 ---
 
@@ -34,9 +40,11 @@ Ose shko te faqja [Releases](https://github.com/drilonjaha/Takvimi-i-Kosoves-per
 ## Si te Instalosh
 
 ### Hapi 1: Shkarko
+
 Kliko linkun e shkarkimit me lart per te marre `KosovoTakvim.dmg`
 
 ### Hapi 2: Instalo
+
 1. Hap skedarin `KosovoTakvim.dmg` qe shkarkove
 2. Terhiq `KosovoTakvim.app` ne dosjen **Applications**
 
@@ -45,6 +53,7 @@ Kliko linkun e shkarkimit me lart per te marre `KosovoTakvim.dmg`
 Meqe ky aplikacion nuk eshte nga App Store, macOS do ta bllokoje heren e pare. Ja si ta hapesh:
 
 #### Opsioni A - Metoda e Klikimit te Djathte (Rekomanduar)
+
 1. Hap dosjen **Applications**
 2. Gjej **KosovoTakvim**
 3. **Kliko me te djathten** (ose Control+klik) mbi aplikacion
@@ -52,6 +61,7 @@ Meqe ky aplikacion nuk eshte nga App Store, macOS do ta bllokoje heren e pare. J
 5. Kliko **"Open"** ne dialogun qe shfaqet
 
 #### Opsioni B - Metoda e System Settings
+
 1. Provo te hapesh aplikacionin normalisht (do te bllokohet)
 2. Hap **System Settings** → **Privacy & Security**
 3. Shkoni poshte derisa te shihni "KosovoTakvim was blocked..."
