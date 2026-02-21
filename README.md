@@ -6,7 +6,7 @@ Aplikacion per Mac qe shfaq kohet e namazit per qytetet ne Evrope. Perdor te dhe
 
 ## Si Duket
 
-![Demo](https://github.com/user-attachments/assets/4c6db5c0-496a-49fc-83bb-4a6774d70348)
+https://github.com/user-attachments/assets/4c6db5c0-496a-49fc-83bb-4a6774d70348
 
 ---
 
